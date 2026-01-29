@@ -23,12 +23,22 @@ themeToggle.addEventListener('change', function () {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+        const href = this.getAttribute('href');
+
+        // Handle #top specially - scroll to top of page
+        if (href === '#top' || href === '#') {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
+        } else {
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
     });
 });
@@ -176,6 +186,19 @@ projectCards.forEach(card => {
         card.style.transform = 'translateY(0) scale(1)';
     });
 });
+
+// ================= BACK TO TOP BUTTON =================
+const backTopButton = document.querySelector('.back-top');
+
+if (backTopButton) {
+    backTopButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
 
 // ================= CONSOLE SIGNATURE =================
 console.log(`
