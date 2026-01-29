@@ -1,3 +1,41 @@
+// ================= CUSTOM CURSOR =================
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+document.body.appendChild(cursor);
+
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+
+window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+function animateCursor() {
+    let easing = 0.15;
+    cursorX += (mouseX - cursorX) * easing;
+    cursorY += (mouseY - cursorY) * easing;
+
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+
+    requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Add hover effects for the cursor
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-card, .info-card, .education-card, input, textarea');
+interactiveElements.forEach((el) => {
+    el.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+    });
+});
+
 // ================= DARK MODE TOGGLE =================
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
@@ -77,8 +115,8 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
+    threshold: 0.15,
+    rootMargin: '0px 0px -50px 0px'
 });
 
 document.querySelectorAll('.section').forEach(section => {
@@ -212,42 +250,9 @@ console.log(`
 // ================= DYNAMIC STYLES =================
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-    
     .main-nav a.active {
         color: var(--accent-highlight);
         background: var(--bg-soft);
-    }
-    
-    .section {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-    }
-    
-    .section.visible {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
     }
 `;
 document.head.appendChild(style);
